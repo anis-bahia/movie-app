@@ -1,0 +1,167 @@
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import "./components/Main.css";
+import {
+  Button,
+  Card,
+  ConContainer,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+
+const App = () => {
+  const [show, setShow] = useState(false);
+  const [data, setData] = useState([]);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [movies, setMovies] = useState([
+    {
+      title: "THE LORD OF THE RINGS",
+      description: " ADVENTURES",
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BOWZlMjFiYzgtMTUzNC00Y2IzLTk1NTMtZmNhMTczNTk0ODk1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
+      rate: "3",
+    },
+    {
+      title: "GOD FATHER",
+      description: "DRAMA",
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+      rate: "5",
+    },
+    {
+      title: "TITANIC",
+      description: "Romance",
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+      rate: "5",
+    },
+    {
+      title: "THE LORD OF THE RINGS",
+      description: " ADVENTURES",
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BOWZlMjFiYzgtMTUzNC00Y2IzLTk1NTMtZmNhMTczNTk0ODk1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
+      rate: "3",
+    },
+  ]);
+  const addMovie = (data) => {
+    setMovies([...movies, { data }]);
+  };
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  useEffect(() => {
+    const results = movies.filter(
+      (movie) =>
+        movie.title.toLowerCase().includes(searchTerm) ||
+        movie.rate.includes(searchTerm)
+    );
+    setSearchResults(results);
+  }, [searchTerm, movies]);
+
+  return (
+    <div>
+      <div className="mt-10">
+        <InputGroup className="mt-10 sm">
+          <InputGroup.Prepend></InputGroup.Prepend>
+          <FormControl
+            placeholder="Search"
+            aria-describedby="basic-addon1"
+            value={searchTerm}
+            onChange={handleChange}
+          />
+        </InputGroup>
+      </div>
+      <div className=" movie">
+        {searchResults.map((item) => (
+          <Card style={{ width: "18rem" }}>
+            <Card.Img src={item.posterUrl} />
+            <Card.Body>
+              <Card.Title>{item.title}</Card.Title>
+              <Card.Text> {item.description}</Card.Text>
+              <Card.Text> {item.rate}</Card.Text>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+      <div className="text-center">
+        <Button variant="primary" onClick={handleShow}>
+          +
+        </Button>
+        <div className="text-center">
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title className="text-muted justify-content-center">
+                Add Movie{" "}
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="text-center">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  name="title"
+                  onChange={(e) => setData({ ...data, title: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="image"
+                  className="img-fluid"
+                  name="image"
+                  onChange={(e) =>
+                    setData({ ...data, posterUrl: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Description"
+                  name="description"
+                  onChange={(e) =>
+                    setData({ ...data, description: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Rate"
+                  name="rate"
+                  onChange={(e) => setData({ ...data, rate: e.target.value })}
+                  required
+                />
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMovies([...movies, data]);
+                }}
+              >
+                ADD
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default App;
