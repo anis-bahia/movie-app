@@ -64,7 +64,9 @@ const App = () => {
     );
     setSearchResults(results);
   }, [searchTerm, movies]);
-
+  const handleCheange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
   return (
     <div>
       <div className="mt-10">
@@ -107,7 +109,7 @@ const App = () => {
                   type="text"
                   placeholder="Title"
                   name="title"
-                  onChange={(e) => setData({ ...data, title: e.target.value })}
+                  onChange={handleCheange}
                   required
                 />
               </div>
@@ -117,9 +119,7 @@ const App = () => {
                   placeholder="image"
                   className="img-fluid"
                   name="image"
-                  onChange={(e) =>
-                    setData({ ...data, posterUrl: e.target.value })
-                  }
+                  onChange={handleCheange}
                   required
                 />
               </div>
@@ -128,9 +128,7 @@ const App = () => {
                   type="text"
                   placeholder="Description"
                   name="description"
-                  onChange={(e) =>
-                    setData({ ...data, description: e.target.value })
-                  }
+                  onChange={handleCheange}
                   required
                 />
               </div>
@@ -139,7 +137,7 @@ const App = () => {
                   type="text"
                   placeholder="Rate"
                   name="rate"
-                  onChange={(e) => setData({ ...data, rate: e.target.value })}
+                  onChange={handleCheange}
                   required
                 />
               </div>
